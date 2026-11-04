@@ -18,7 +18,7 @@ export default function DockerContainers() {
   const user = containers.filter(isUser).sort(byState)
 
   return (
-    <div className="flex h-screen bg-[#1c1c1c]">
+    <div className="flex h-screen bg-surface-sunken">
       <AdminSidebar />
 
       <main className="flex min-w-0 flex-1 flex-col gap-3 overflow-y-auto p-3">
@@ -26,7 +26,7 @@ export default function DockerContainers() {
           <b>Containers</b>
         </div>
 
-        {error && <div className="px-1 text-[#e66]">Error: {error}</div>}
+        {error && <div className="px-1 text-danger">Error: {error}</div>}
 
         <ContainerTable
           title={runningTitle('System containers', system)}

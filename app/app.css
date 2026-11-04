@@ -1,11 +1,73 @@
-@import "tailwindcss";
+@layer theme, base, components, utilities;
+@import "tailwindcss/theme.css" layer(theme);
+@import "tailwindcss/preflight.css" layer(base);
+@import "tailwindcss/utilities.css" layer(utilities);
+
+@theme {
+  --font-display: "Satoshi", sans-serif;
+}
+
+@theme inline {
+  /* brand */
+  --color-primary: var(--primary-color);
+  --color-secondary: var(--secondary-color);
+  --color-tertiary: var(--tertiary-color);
+
+  /* surfaces */
+  --color-surface: var(--surface-color);
+  --color-surface-raised: var(--surface-raised-color);
+  --color-surface-sunken: var(--surface-sunken-color);
+  --color-terminal: var(--terminal-color);
+
+  /* text + lines */
+  --color-default: var(--default-color);
+  --color-muted: var(--muted-color);
+  --color-border: var(--border-color);
+
+  /* status */
+  --color-good: var(--good-color);
+  --color-danger: var(--danger-color);
+}
+
+:root {
+  color-scheme: dark;
+
+  /* brand */
+  --primary-color: #333;
+  --secondary-color: #3d6fa5;
+  --tertiary-color: #f3ede8;
+
+  /* surfaces */
+  --surface-color: #242424;
+  --surface-raised-color: #2f2f2f;
+  --surface-sunken-color: #1c1c1c;
+  --terminal-color: #000;
+
+  /* text + lines */
+  --default-color: #f3ede8;
+  --muted-color: #aaa;
+  --border-color: #444;
+
+  /* status */
+  --good-color: #4c4;
+  --danger-color: #e66;
+}
 
 html,
 body {
-  background: #1c1c1c;
-  color: #ddd;
-  color-scheme: dark; /* dark scrollbars and form controls */
+  background: var(--primary-color);
+  color: var(--default-color);
   font-family: system-ui, sans-serif;
   font-size: 13px;
-  font-variant-numeric: tabular-nums; /* digits have equal width, so live numbers don't jitter */
+  font-variant-numeric: tabular-nums;
+}
+
+::selection {
+  background: var(--secondary-color);
+  color: var(--default-color);
+}
+
+:focus-visible {
+  outline: 2px solid var(--secondary-color);
+  outline-offset: 2px;
 }

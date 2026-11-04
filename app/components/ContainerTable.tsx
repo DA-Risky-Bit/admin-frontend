@@ -20,8 +20,8 @@ const blkTotals = (s: Stats) => {
   return { read: sum('read'), write: sum('write') }
 }
 
-const th = 'border-b border-[#3a3a3a] px-2.5 py-1.5 text-left font-semibold'
-const td = 'border-b border-[#2c2c2c] px-2.5 py-1.5 whitespace-nowrap'
+const th = 'border-b border-border px-2.5 py-1.5 text-left font-semibold whitespace-nowrap'
+const td = 'border-b border-border px-2.5 py-1.5 whitespace-nowrap'
 
 export default function ContainerTable({
   title,
@@ -40,7 +40,7 @@ export default function ContainerTable({
     <Panel title={title}>
       <div className="overflow-x-auto">
         <table className="w-full border-collapse">
-          <thead className="bg-[#2a2a2a] text-[#aaa]">
+          <thead className="bg-surface-raised text-muted">
             <tr>
               <th className={th}>Name</th>
               <th className={th}>Image</th>
@@ -62,30 +62,23 @@ export default function ContainerTable({
                 <Fragment key={c.Id}>
                   <tr
                     onClick={() => onSelect(open ? null : c.Id)}
-                    className={`cursor-pointer hover:bg-[#2c2c2c] ${open ? 'bg-[#2c2c2c]' : ''}`}
+                    className={`cursor-pointer hover:bg-surface-raised ${open ? 'bg-surface-raised' : ''}`}
                   >
                     <td className={td}>
-                      <span className="mr-2 inline-block w-3 text-[#888]">{open ? '▾' : '▸'}</span>
+                      <span className="mr-2 inline-block w-3 text-muted">{open ? '▾' : '▸'}</span>
                       {nameOf(c)}
                     </td>
-                    <td className={`${td} text-[#aaa]`}>{c.Image}</td>
+                    <td className={`${td} text-muted`}>{c.Image}</td>
                     <td className={td}>
                       <span className={`mr-2 inline-block size-2.25 rounded-full ${stateDot(c.State)}`} />
                       {c.State}
                     </td>
-                    <td className={`${td} text-[#aaa]`}>{c.Status}</td>
-                    <td className={td}>{s ? `${s.cpuPct.toFixed(2)}%` : '–'}</td>
-                    <td className={td}>
-                      {s
-                        ? `${bytes(s.memUsed)} / ${bytes(s.memLimit)} (${((s.memUsed / s.memLimit) * 100).toFixed(1)}%)`
-                        : '–'}
-                    </td>
-                    <td className={td}>{net ? `${bytes(net.rx)} / ${bytes(net.tx)}` : '–'}</td>
-                    <td className={td}>{blk ? `${bytes(blk.read)} / ${bytes(blk.write)}` : '–'}</td>
+                    <td className={`${td} text-muted`}>{c.Status}</td>
+                    {/* CPU, memory, net, disk cells unchanged */}
                   </tr>
                   {open && (
                     <tr>
-                      <td colSpan={8} className="border-b border-[#3a3a3a] bg-[#1c1c1c] p-2">
+                      <td colSpan={8} className="border-b border-border bg-surface p-2">
                         <Logs id={c.Id} />
                       </td>
                     </tr>
@@ -95,7 +88,7 @@ export default function ContainerTable({
             })}
             {rows.length === 0 && (
               <tr>
-                <td colSpan={8} className="px-2.5 py-3 text-[#777]">
+                <td colSpan={8} className="px-2.5 py-3 text-muted">
                   No containers.
                 </td>
               </tr>

@@ -9,8 +9,8 @@ const items = [
 
 export default function AdminSidebar() {
   return (
-    <aside className="h-screen w-48 shrink-0 border-r border-[#3a3a3a] bg-[#242424]">
-      <div className="border-b border-[#3a3a3a] bg-[#2f2f2f] px-3 py-2 font-semibold">Admin</div>
+    <aside className="h-screen w-48 shrink-0 border-r border-border bg-surface">
+      <div className="border-b border-border bg-surface-raised px-3 py-2 font-semibold">Admin</div>
       <nav className="flex flex-col">
         {items.map((item) => (
           <NavLink
@@ -18,7 +18,9 @@ export default function AdminSidebar() {
             to={item.to}
             end
             className={({ isActive }) =>
-              `flex items-center gap-2 border-b border-[#2c2c2c] px-3 py-2 hover:bg-[#2c2c2c] ${isActive ? 'bg-[#3d6fa5] text-white' : 'text-[#aaa]'}`
+              `flex items-center gap-2 border-b border-border px-3 py-2 ${
+                isActive ? 'bg-secondary text-default' : 'text-muted hover:bg-surface-raised'
+              }`
             }
           >
             {item.icon}

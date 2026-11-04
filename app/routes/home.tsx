@@ -75,14 +75,14 @@ export default function DockerDashboard() {
   const userPct = userContainers.length ? (userRunning / userContainers.length) * 100 : 0
 
   return (
-      <div className="flex h-screen bg-[#1c1c1c] ">
+      <div className="flex h-screen bg-surface-sunken">
         <AdminSidebar />
 
         <main className="flex min-w-0 flex-1 flex-col gap-3 overflow-y-auto p-3">
           <div className="flex items-baseline gap-3 px-1 py-1.5 text-[15px]">
             <b>Docker</b>
             {info && (
-              <span className="text-[#999]">
+              <span className="text-muted">
                 {info.os} · Docker {info.serverVersion}
               </span>
             )}
@@ -91,12 +91,12 @@ export default function DockerDashboard() {
           <div className="grid grid-cols-[repeat(auto-fit,minmax(380px,1fr))] items-start gap-3">
             <Panel title="Status - System Container">
               <Row label="Health">
-                <span className={`mr-2 inline-block size-2.25 rounded-full ${healthy ? 'bg-[#4c4]' : 'bg-[#d44]'}`} />
+                <span className={`mr-2 inline-block size-2.25 rounded-full ${healthy ? 'bg-good' : 'bg-danger'}`} />
                 {error ? `Error: ${error}` : healthy ? 'OK' : `${problems.length} problem${problems.length > 1 ? 's' : ''}`}
               </Row>
               {problems.map((p) => (
                 <Row key={p} label="">
-                  <span className="text-[#e66]">{p}</span>
+                  <span className="text-danger">{p}</span>
                 </Row>
               ))}
               <Row label="Containers">
@@ -146,15 +146,15 @@ export default function DockerDashboard() {
           <Panel title="Logs (all containers)">
             <div
               ref={logBox}
-              className="h-80 overflow-y-auto break-all whitespace-pre-wrap bg-black p-2 font-mono text-xs leading-snug"
+              className="h-80 overflow-y-auto break-all whitespace-pre-wrap bg-terminal p-2 font-mono text-xs leading-snug"
               onScroll={(e) => {
                 const el = e.currentTarget
                 stickToBottom.current = el.scrollHeight - el.scrollTop - el.clientHeight < 20
               }}
             >
               {logs.map((l, i) => (
-                <div key={i} className={l.stream === 'stderr' ? 'text-[#e66]' : undefined}>
-                  <span className="text-[#777]">
+                <div key={i} className={l.stream === 'stderr' ? 'text-danger' : undefined}>
+                  <span className="text-muted">
                     {new Date(l.ts).toLocaleTimeString()} {l.name}{' '}
                   </span>
                   {l.text}
