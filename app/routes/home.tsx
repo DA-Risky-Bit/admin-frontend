@@ -146,15 +146,15 @@ export default function DockerDashboard() {
           <Panel title="Logs (all containers)">
             <div
               ref={logBox}
-              className="h-80 overflow-y-auto break-all whitespace-pre-wrap bg-terminal p-2 font-mono text-xs leading-snug"
+              className="h-80 overflow-y-auto break-all whitespace-pre-wrap bg-terminal p-2 font-mono text-xs leading-snug text-terminal-text"
               onScroll={(e) => {
                 const el = e.currentTarget
                 stickToBottom.current = el.scrollHeight - el.scrollTop - el.clientHeight < 20
               }}
             >
               {logs.map((l, i) => (
-                <div key={i} className={l.stream === 'stderr' ? 'text-danger' : undefined}>
-                  <span className="text-muted">
+                <div key={i} className={l.stream === 'stderr' ? 'text-terminal-danger' : undefined}>
+                  <span className="text-terminal-muted">
                     {new Date(l.ts).toLocaleTimeString()} {l.name}{' '}
                   </span>
                   {l.text}

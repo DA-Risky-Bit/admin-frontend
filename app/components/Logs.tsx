@@ -44,20 +44,22 @@ export default function Logs({ id }: { id: string }) {
   return (
     <div
       ref={box}
-      className="h-72 overflow-y-auto break-all whitespace-pre-wrap bg-terminal p-2 font-mono text-xs leading-snug"
+      className="h-72 overflow-y-auto break-all whitespace-pre-wrap bg-terminal p-2 font-mono text-xs leading-snug text-terminal-text"
       onScroll={(e) => {
         const el = e.currentTarget
         stickToBottom.current = el.scrollHeight - el.scrollTop - el.clientHeight < 20
       }}
     >
-      {lines.length === 0 && <div className="text-muted">{ended ? 'No logs.' : 'Waiting for logs…'}</div>}
+      {lines.length === 0 && (
+        <div className="text-terminal-muted">{ended ? 'No logs.' : 'Waiting for logs…'}</div>
+      )}
       {lines.map((l, i) => (
-        <div key={i} className={l.stream === 'stderr' ? 'text-danger' : undefined}>
-          <span className="text-muted">{l.ts ? new Date(l.ts).toLocaleTimeString() : ''} </span>
+        <div key={i} className={l.stream === 'stderr' ? 'text-terminal-danger' : undefined}>
+          <span className="text-terminal-muted">{l.ts ? new Date(l.ts).toLocaleTimeString() : ''} </span>
           {l.text}
         </div>
       ))}
-      {ended && lines.length > 0 && <div className="text-muted">— end of stream —</div>}
+      {ended && lines.length > 0 && <div className="text-terminal-muted">— end of stream —</div>}
     </div>
   )
 }

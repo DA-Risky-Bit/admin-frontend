@@ -17,7 +17,6 @@
   --color-surface: var(--surface-color);
   --color-surface-raised: var(--surface-raised-color);
   --color-surface-sunken: var(--surface-sunken-color);
-  --color-terminal: var(--terminal-color);
 
   /* text + lines */
   --color-default: var(--default-color);
@@ -27,8 +26,14 @@
   /* status */
   --color-good: var(--good-color);
   --color-danger: var(--danger-color);
+
+  --color-terminal: var(--terminal-color);
+    --color-terminal-text: var(--terminal-text-color);
+    --color-terminal-muted: var(--terminal-muted-color);
+    --color-terminal-danger: var(--terminal-danger-color);
 }
 
+/* dark (default) */
 :root {
   color-scheme: dark;
 
@@ -41,7 +46,6 @@
   --surface-color: #242424;
   --surface-raised-color: #2f2f2f;
   --surface-sunken-color: #1c1c1c;
-  --terminal-color: #000;
 
   /* text + lines */
   --default-color: #f3ede8;
@@ -51,6 +55,67 @@
   /* status */
   --good-color: #4c4;
   --danger-color: #e66;
+
+  --terminal-color: #000;
+  --terminal-text-color: #f3ede8;
+  --terminal-muted-color: #aaa;
+  --terminal-danger-color: #e66;
+}
+
+/* light: follows system unless the user forced dark */
+@media (prefers-color-scheme: light) {
+  :root:not([data-theme="dark"]) {
+    color-scheme: light;
+
+    /* brand */
+    --primary-color: #f3ede8;
+    --secondary-color: #81B9E3;
+    --tertiary-color: #333;
+
+    /* surfaces */
+    --surface-color: #faf7f4;
+    --surface-raised-color: #fff;
+    --surface-sunken-color: #e9e3dd;
+
+    /* text + lines */
+    --default-color: #2a2a2a;
+    --muted-color: #666;
+    --border-color: #d6cfc8;
+
+    /* status */
+    --good-color: #1f8f3a;
+    --danger-color: #c93a3a;
+
+    --terminal-color: #1c1c1c;
+    --terminal-text-color: #f3ede8;
+    --terminal-muted-color: #aaa;
+    --terminal-danger-color: #e66;
+  }
+}
+
+/* light: manual override */
+:root[data-theme="light"] {
+  color-scheme: light;
+
+  --primary-color: #f3ede8;
+  --secondary-color: #81B9E3;
+  --tertiary-color: #333;
+
+  --surface-color: #faf7f4;
+  --surface-raised-color: #fff;
+  --surface-sunken-color: #e9e3dd;
+
+  --default-color: #2a2a2a;
+  --muted-color: #666;
+  --border-color: #d6cfc8;
+
+  --good-color: #1f8f3a;
+  --danger-color: #c93a3a;
+
+  --terminal-color: #1c1c1c;
+  --terminal-text-color: #f3ede8;
+  --terminal-muted-color: #aaa;
+  --terminal-danger-color: #e66;
 }
 
 html,
@@ -64,7 +129,7 @@ body {
 
 ::selection {
   background: var(--secondary-color);
-  color: var(--default-color);
+  color: #fff;
 }
 
 :focus-visible {

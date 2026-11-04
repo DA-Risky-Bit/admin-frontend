@@ -18,17 +18,6 @@ export function Layout({ children }: { children: React.ReactNode }) {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <Meta />
         <Links />
-        <script
-          dangerouslySetInnerHTML={{
-            __html: `
-              try {
-                const saved = localStorage.getItem("theme");
-                const prefersDark = matchMedia("(prefers-color-scheme: dark)").matches;
-                document.documentElement.classList.toggle("dark", saved ? saved === "dark" : prefersDark);
-              } catch {}
-            `,
-          }}
-        />
       </head>
       <body>
         {children}
