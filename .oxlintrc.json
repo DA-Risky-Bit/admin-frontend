@@ -1,6 +1,5 @@
 {
-  "$schema": "./node_modules/oxlint/configuration_schema.json",
-  "plugins": ["typescript", "react"],
-  "categories": { "correctness": "error" },
-  "ignorePatterns": [".react-router/**", "build/**", "node_modules/**"]
+  "extends": ["../config/oxlint.base.json"],
+  "plugins": ["typescript", "react", "jsx-a11y", "import"],
+  "env": { "browser": true }
 }

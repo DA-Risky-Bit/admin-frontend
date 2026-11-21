@@ -3,7 +3,6 @@ import Panel from './Panel'
 import Logs from './Logs'
 
 import { nameOf, stateDot } from '../lib/docker'
-import { bytes } from '../lib/format'
 import type { ContainerInfo, Stats } from '../lib/types'
 
 const netTotals = (s: Stats) => {
