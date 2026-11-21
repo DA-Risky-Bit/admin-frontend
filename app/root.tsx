@@ -10,6 +10,63 @@ import {
 import type { Route } from "./+types/root";
 import "./app.css";
 
+// Global client loader to enforce admin role and redirect to app subdomain if unauthorized
+export async function clientLoader({ request }: Route.ClientLoaderArgs) {
+  if (typeof window === "undefined") return null;
+
+  const url = new URL(request.url);
+
+  // Prevent infinite loops if we are already on the app subdomain
+  if (url.hostname.startsWith("app.")) {
+    return null;
+  }
+
+  const token = localStorage.getItem("token");
+  let isAdmin = false;
+
+  if (token) {
+    try {
+      const base64Url = token.split('.')[1];
+      const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+      const jsonPayload = decodeURIComponent(
+        atob(base64)
+          .split('')
+          .map((c) => '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2))
+          .join('')
+      );
+      const payload = JSON.parse(jsonPayload);
+      if (payload.role === 1) {
+        isAdmin = true;
+      }
+    } catch (error) {
+      // Token parsing failed, treat as unauthenticated
+      localStorage.removeItem("token");
+    }
+  }
+
+  // If not logged in or not an admin (role !== 1), redirect to app.{domain}
+  if (!isAdmin) {
+    const hostParts = url.hostname.split('.');
+
+    // Swap or insert 'app' as the subdomain
+    if (hostParts.length > 1) {
+      hostParts[0] = 'app';
+    } else {
+      hostParts.unshift('app');
+    }
+
+    const newHost = hostParts.join('.') + (url.port ? `:${url.port}` : '');
+    const targetUrl = `${url.protocol}//${newHost}${url.pathname}${url.search}`;
+
+    window.location.href = targetUrl;
+    return null;
+  }
+
+  return { authorized: true };
+}
+
+clientLoader.hydrate = true;
+
 export function Layout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en">
