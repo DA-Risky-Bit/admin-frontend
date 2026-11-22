@@ -29,9 +29,9 @@ export async function clientLoader({ request }: Route.ClientLoaderArgs) {
     const res = await api("/api/auth/me");
 
     if (res.ok) {
-      const user = await res.json();
-      // Check if user has admin role (role === 1)
-      if (user && user.role === 1) {
+      const data = await res.json();
+      const user = data.user ?? data;
+      if (user?.role === 1) {
         isAdmin = true;
       }
     }
