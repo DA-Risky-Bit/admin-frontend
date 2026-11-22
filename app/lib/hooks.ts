@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useState } from 'react'
-import { API } from './config'
+import { API_DOCKER } from './config'
 import { sse } from './docker'
 import type { ContainerInfo, HostInfo, Stats } from './types'
 
@@ -9,7 +9,7 @@ export function useContainers() {
 
   const refresh = useCallback(async () => {
     try {
-      const res = await fetch(`${API}/containers`, { credentials: 'include' })
+      const res = await fetch(`${API_DOCKER}/containers`, { credentials: 'include' })
       const data = await res.json()
       if (!res.ok || !Array.isArray(data)) throw new Error(data?.error ?? `HTTP ${res.status}`)
       setContainers(data)
@@ -38,7 +38,7 @@ export function useHostInfo() {
   const [error, setError] = useState<string | null>(null)
 
   useEffect(() => {
-    fetch(`${API}/info`, { credentials: 'include' })
+    fetch(`${API_DOCKER}/info`, { credentials: 'include' })
       .then(async (res) => {
         const data = await res.json()
         if (!res.ok) throw new Error(data?.error ?? `HTTP ${res.status}`)

@@ -1,7 +1,7 @@
-import { API, COMPOSE_SERVICE_LABEL, USER_GROUP_LABEL } from './config'
+import { API_DOCKER, COMPOSE_SERVICE_LABEL, USER_GROUP_LABEL } from './config'
 import type { ContainerInfo } from './types'
 
-export const sse = (path: string) => new EventSource(`${API}${path}`, { withCredentials: true })
+export const sse = (path: string) => new EventSource(`${API_DOCKER}${path}`, { withCredentials: true })
 
 export const nameOf = (c: ContainerInfo) => c.Names[0]?.replace('/', '') ?? c.Id.slice(0, 12)
 export const serviceOf = (c: ContainerInfo) => c.Labels?.[COMPOSE_SERVICE_LABEL]

@@ -9,8 +9,9 @@ import {
 
 import type { Route } from "./+types/root";
 import "./app.css";
+import { api } from "./api/clients";
 
-// Global client loader to enforce admin role and redirect to app subdomain if unauthorized
+// Global client loader to enforce admin role via session/cookie verification
 export async function clientLoader({ request }: Route.ClientLoaderArgs) {
   if (typeof window === "undefined") return null;
 
@@ -21,30 +22,25 @@ export async function clientLoader({ request }: Route.ClientLoaderArgs) {
     return null;
   }
 
-  const token = localStorage.getItem("token");
   let isAdmin = false;
 
-  if (token) {
-    try {
-      const base64Url = token.split('.')[1];
-      const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
-      const jsonPayload = decodeURIComponent(
-        atob(base64)
-          .split('')
-          .map((c) => '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2))
-          .join('')
-      );
-      const payload = JSON.parse(jsonPayload);
-      if (payload.role === 1) {
+  try {
+    // Verify session and role against the backend using the shared API client
+    const res = await api("/api/auth/me");
+
+    if (res.ok) {
+      const user = await res.json();
+      // Check if user has admin role (role === 1)
+      if (user && user.role === 1) {
         isAdmin = true;
       }
-    } catch (error) {
-      // Token parsing failed, treat as unauthenticated
-      localStorage.removeItem("token");
     }
+  } catch (_) {
+    // Request failed or network error, treat as unauthenticated
+    isAdmin = false;
   }
 
-  // If not logged in or not an admin (role !== 1), redirect to app.{domain}
+  // If not logged in or not an admin, redirect to app.{domain}
   if (!isAdmin) {
     const hostParts = url.hostname.split('.');
 
