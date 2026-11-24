@@ -10,7 +10,7 @@ export function useContainers() {
 
   const refresh = useCallback(async () => {
     try {
-      const res = await api(`${API_DOCKER}/containers`)
+      const res = await api(`/api/docker/containers`)
       const data = await res.json()
 
       if (!res.ok || !Array.isArray(data)) {
@@ -26,7 +26,7 @@ export function useContainers() {
 
   useEffect(() => {
     refresh()
-    const es = sse('/events')
+    const es = sse('/api/docker/events')
     es.addEventListener('docker', () => refresh())
     const timer = setInterval(refresh, 30_000)
 
@@ -44,7 +44,7 @@ export function useHostInfo() {
   const [error, setError] = useState<string | null>(null)
 
   useEffect(() => {
-    api(`${API_DOCKER}/info`)
+    api(`/api/docker/info`)
       .then(async (res) => {
         const data = await res.json()
         if (!res.ok) throw new Error(data?.error ?? `HTTP ${res.status}`)
