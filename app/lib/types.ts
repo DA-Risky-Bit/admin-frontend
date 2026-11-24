@@ -6,6 +6,13 @@ export interface ContainerInfo {
   Status: string // e.g. "Up 3 minutes", "Exited (0) 2 hours ago"
   Labels?: Record<string, string>
 }
+export interface User {
+  id: number,
+  username: string,
+  email: string,
+  deleted: boolean
+  role: number
+}
 export interface HostInfo {
   ncpu: number
   memTotal: number

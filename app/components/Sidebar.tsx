@@ -1,11 +1,12 @@
 import { NavLink } from 'react-router'
-import { FaList, FaMoon, FaSun } from 'react-icons/fa'
+import { FaList, FaMoon, FaSun, FaUsers } from 'react-icons/fa'
 import { MdDashboard } from 'react-icons/md'
 import { useTheme } from '../lib/toggleTheme'
 
 const items = [
   { to: '/', label: 'Dashboard', icon: <MdDashboard /> },
-  { to: '/docker', label: 'Container Table', icon: <FaList /> }
+  { to: '/docker', label: 'Container Table', icon: <FaList /> },
+  { to: '/users', label: 'User', icon: <FaUsers /> }
 ]
 
 export default function AdminSidebar() {
