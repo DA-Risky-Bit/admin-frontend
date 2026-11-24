@@ -1,6 +1,7 @@
 import { Fragment } from 'react'
 import Panel from './Panel'
 import Logs from './Logs'
+import { bytes } from '../lib/format'
 
 import { nameOf, stateDot } from '../lib/docker'
 import type { ContainerInfo, Stats } from '../lib/types'
@@ -73,7 +74,14 @@ export default function ContainerTable({
                       {c.State}
                     </td>
                     <td className={`${td} text-muted`}>{c.Status}</td>
-                    {/* CPU, memory, net, disk cells unchanged */}
+                    <td className={td}>{s ? `${s.cpuPct.toFixed(2)}%` : '–'}</td>
+                    <td className={td}>
+                      {s
+                        ? `${bytes(s.memUsed)} / ${bytes(s.memLimit)} (${((s.memUsed / s.memLimit) * 100).toFixed(1)}%)`
+                        : '–'}
+                    </td>
+                    <td className={td}>{net ? `${bytes(net.rx)} / ${bytes(net.tx)}` : '–'}</td>
+                    <td className={td}>{blk ? `${bytes(blk.read)} / ${bytes(blk.write)}` : '–'}</td>
                   </tr>
                   {open && (
                     <tr>
